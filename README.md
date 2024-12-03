@@ -13,3 +13,8 @@
 
 - [x] Part 1: Safe Reports :star:
 - [x] Part 2: Problem Dampener :star:
+
+## Day 3: Mull It Over
+
+- [x] Part 1: sum of mul instructions :star:
+- [ ] Part 2: dos and don'ts
