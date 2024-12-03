@@ -5,11 +5,11 @@
 - [JS (Deno)](./day-01/js-deno/main.js)
 
 - [x] Part 1: Total Distance :star:
-- [x] Part 2: SImilarity Score :star:
+- [x] Part 2: Similarity Score :star:
 
 ## Day 2: Red-Nosed Reports
 
 - [JS (Deno)](./day-02/js-deno/main.js)
 
 - [x] Part 1: Safe Reports :star:
-- [ ] Part 2: Problem Dampener
+- [x] Part 2: Problem Dampener :star:
