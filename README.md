@@ -16,5 +16,6 @@
 
 ## Day 3: Mull It Over
 
+- [JS (Deno)](./day-03/js-deno/main.js)
 - [x] Part 1: sum of mul instructions :star:
-- [ ] Part 2: dos and don'ts
+- [x] Part 2: dos and don'ts :star:
