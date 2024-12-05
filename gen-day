@@ -8,5 +8,16 @@ fi
 
 new_day="day-$day_number"
 
-print $new_day
-cp -r template "$new_day"
+print "Initializing $new_day"
+
+day_section="
+## [Day $day_number: Title](https://adventofcode.com/2024/day/$1)
+
+- [JS (Deno)](./day-$day_number/js-deno/main.js)
+  - [ ] Part 1: ...
+  - [ ] Part 2: ...
+"
+
+echo $day_section >> README.md && echo "\e[32mUpdated README.md with day $day_number deets\e[0m" || "\e[31Docs: Something went wrong!"
+
+cp -r template "$new_day" && echo "\e[32mCreated $new_day directory\e[0m" || "\e[31Dir: Something went wrong!"
