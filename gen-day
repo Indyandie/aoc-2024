@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+
+day_number="$1"
+
+if [[ $day_number -lt 10 ]]; then
+    day_number="0$day_number"
+fi
+
+new_day="day-$day_number"
+
+print $new_day
+cp -r template "$new_day"
