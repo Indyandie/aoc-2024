@@ -17,3 +17,10 @@
 - [JS (Deno)](./day-03/js-deno/main.js)
   - [x] Part 1: sum of mul instructions :star:
   - [x] Part 2: dos and don'ts :star:
+
+## [Day 04: Title](https://adventofcode.com/2024/day/4)
+
+- [JS (Deno)](./day-04/js-deno/main.js)
+  - [ ] Part 1: ...
+  - [ ] Part 2: ...
+
