@@ -2,20 +2,31 @@
 
 // Part 1
 
-const input = await Deno.readTextFile('../sample-input')
+// const input = await Deno.readTextFile('../sample-input')
+const input = await Deno.readTextFile('../input')
 const xmasArr = input.split('\n').map((rows) => {
   const row = rows.split('')
   // row.pop()
   return row
 })
+// xmasArr.pop()
 
 const rowsNum = xmasArr.length
 const colsNum = xmasArr[1].length
 const xmas = 'XMAS'
 const xmasLen = xmas.length
 
-const maxVertDown = xmasArr.length - (xmasLen + 1)
-const minVertUp = xmasLen - 1
+const maxVertDown = xmasArr.length - (xmasLen)
+const minVertUp = xmasLen - 2 // here too
+
+let xmasCount = 0
+
+function xmasCounter(str, arr, dir) {
+  if (str === 'XMAS' || str === 'SAMX') {
+    xmasCount = xmasCount + 1
+  }
+  console.log(arr, dir, str, xmasCount)
+}
 
 for (let x = 0; x < rowsNum; x++) {
   const currRow = xmasArr[x]
@@ -27,50 +38,59 @@ for (let x = 0; x < rowsNum; x++) {
     const seed = xmasArr[x][y]
 
     if (seed === 'X') {
-      let horRight = 'NNNN'
-      let slice02 = 'NNNN'
-      let diagDownRight = ''
-      let diagUpRight = ''
-      let diagDownLeft = ''
-      let diagUpLeft = ''
+      let horRight = '::::'
+      let horLeft = '::::'
+      let diagDownRight = '::::'
+      let diagUpRight = '::::'
+      let diagDownLeft = '::::'
+      let diagUpLeft = '::::'
 
       if (y < (xmasArr.length - xmasLen)) {
         horRight = currRow.slice(y, y + 4).join('')
+        // horRight = 'X'
+        // for (let r = y + 1; r < (y + 4); r++) {
+        //   horRight = horRight + xmasArr[x][r]
+        // }
+        xmasCounter(horRight, [x, y], '->')
 
         if (checkVertDown) {
-          for (let d = 0; d < xmasLen; d++) {
+          diagDownRight = 'X'
+          for (let d = 1; d < xmasLen; d++) {
             diagDownRight = diagDownRight + xmasArr[x + d][y + d]
           }
-        } else {
-          diagDownRight = 'NNNN'
+          xmasCounter(diagDownRight, [x, y], '->down')
         }
 
         if (checkVertUp) {
-          for (let d = 0; d < xmasLen; d++) {
+          diagUpRight = 'X'
+          for (let d = 1; d < xmasLen; d++) {
             diagUpRight = diagUpRight + xmasArr[x - d][y + d]
           }
-        } else {
-          diagUpRight = 'NNNN'
+          xmasCounter(diagUpRight, [x, y], '->up')
         }
       }
 
-      if (y > (xmasLen - 1)) {
-        slice02 = currRow.slice(y - 3, y + 1).join('')
+      if (y > (xmasLen - 2)) { // this conditional was throwing everything off :(
+        horLeft = 'X'
+        for (let l = y - 1; l > (y - 4); l--) {
+          horLeft = horLeft + xmasArr[x][l]
+        }
+        xmasCounter(horLeft, [x, y], '<-')
 
         if (checkVertUp) {
-          for (let d = 0; d < xmasLen; d++) {
-            diagDownLeft = diagDownLeft + xmasArr[x - d][y - d]
+          diagUpLeft = 'X'
+          for (let d = 1; d < xmasLen; d++) {
+            diagUpLeft = diagUpLeft + xmasArr[x - d][y - d]
           }
-        } else {
-          diagDownLeft = 'NNNN'
+          xmasCounter(diagUpLeft, [x, y], '<-up>')
         }
 
         if (checkVertDown) {
-          for (let d = 0; d < xmasLen; d++) {
-            diagUpLeft = diagUpLeft + xmasArr[x + d][y - d]
+          diagDownLeft = 'X'
+          for (let d = 1; d < xmasLen; d++) {
+            diagDownLeft = diagDownLeft + xmasArr[x + d][y - d]
           }
-        } else {
-          diagUpLeft = 'NNNN'
+          xmasCounter(diagDownLeft, [x, y], '<-down')
         }
       }
 
@@ -80,8 +100,7 @@ for (let x = 0; x < rowsNum; x++) {
         for (let v = x; v < (x + xmasLen); v++) {
           vertDown = vertDown + xmasArr[v][y]
         }
-      } else {
-        vertDown = 'NNNN'
+        xmasCounter(vertDown, [x, y], 'down')
       }
 
       let vertUp = ''
@@ -90,15 +109,10 @@ for (let x = 0; x < rowsNum; x++) {
         for (let v = x; v > (x - xmasLen); v--) {
           vertUp = xmasArr[v][y] + vertUp
         }
-      } else {
-        vertUp = 'NNNN'
+        xmasCounter(vertUp, [x, y], 'up')
       }
 
       console.log(seed, x, y)
-      console.log('HR', horRight, 'HB', slice02)
-      console.log('VD', vertDown, 'VU', vertUp)
-      console.log('DDR', diagDownRight, 'DUR', diagUpRight)
-      console.log('DDL', diagDownLeft, 'DUL', diagUpLeft)
     }
   }
 }
@@ -106,5 +120,13 @@ for (let x = 0; x < rowsNum; x++) {
 // console.log(xmasArr, "\n\n\n", rowsNum, colsNum)
 console.log('\n\n\n', 'vertdown', maxVertDown, 'vertup', minVertUp)
 console.log('\n\n\n', rowsNum, colsNum)
+
+console.log('xmas count', xmasCount)
+console.log(
+  xmasLen,
+  'min vertical up', minVertUp,
+  'min vertical down', maxVertDown,
+)
+// console.log(xmasArr)
 
 // Part 2
