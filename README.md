@@ -22,5 +22,5 @@
 
 - [JS (Deno)](./day-04/js-deno/main.js)
   - [x] Part 1: Counting XMAS :star:
-  - [ ] Part 2: X-MAS
+  - [x] Part 2: X-MAS :star:
 

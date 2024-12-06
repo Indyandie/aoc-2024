@@ -3,6 +3,7 @@
 // Part 1
 
 // const input = await Deno.readTextFile('../sample-input')
+// const input = await Deno.readTextFile('../sample-input-copy')
 const input = await Deno.readTextFile('../input')
 const xmasArr = input.split('\n').map((rows) => {
   const row = rows.split('')
@@ -16,7 +17,7 @@ const colsNum = xmasArr[1].length
 const xmas = 'XMAS'
 const xmasLen = xmas.length
 
-const maxVertDown = xmasArr.length - (xmasLen)
+const maxVertDown = xmasArr.length - xmasLen
 const minVertUp = xmasLen - 2 // here too
 
 let xmasCount = 0
@@ -28,105 +29,129 @@ function xmasCounter(str, arr, dir) {
   console.log(arr, dir, str, xmasCount)
 }
 
-for (let x = 0; x < rowsNum; x++) {
-  const currRow = xmasArr[x]
+function countXMAS() {
+  for (let x = 0; x < rowsNum; x++) {
+    const currRow = xmasArr[x]
 
-  const checkVertDown = x < maxVertDown
-  const checkVertUp = x > minVertUp
+    const checkVertDown = x < maxVertDown
+    const checkVertUp = x > minVertUp
 
-  for (let y = 0; y < colsNum; y++) {
+    for (let y = 0; y < colsNum; y++) {
+      const seed = xmasArr[x][y]
+
+      if (seed === 'X') {
+        let horRight = '::::'
+        let horLeft = '::::'
+        let diagDownRight = '::::'
+        let diagUpRight = '::::'
+        let diagDownLeft = '::::'
+        let diagUpLeft = '::::'
+
+        if (y < (xmasArr.length - xmasLen)) {
+          horRight = currRow.slice(y, y + 4).join('')
+          // horRight = 'X'
+          // for (let r = y + 1; r < (y + 4); r++) {
+          //   horRight = horRight + xmasArr[x][r]
+          // }
+          xmasCounter(horRight, [x, y], '->')
+
+          if (checkVertDown) {
+            diagDownRight = 'X'
+            for (let d = 1; d < xmasLen; d++) {
+              diagDownRight = diagDownRight + xmasArr[x + d][y + d]
+            }
+            xmasCounter(diagDownRight, [x, y], '->down')
+          }
+
+          if (checkVertUp) {
+            diagUpRight = 'X'
+            for (let d = 1; d < xmasLen; d++) {
+              diagUpRight = diagUpRight + xmasArr[x - d][y + d]
+            }
+            xmasCounter(diagUpRight, [x, y], '->up')
+          }
+        }
+
+        if (y > (xmasLen - 2)) { // this conditional was throwing everything off :(
+          horLeft = 'X'
+          for (let l = y - 1; l > (y - 4); l--) {
+            horLeft = horLeft + xmasArr[x][l]
+          }
+          xmasCounter(horLeft, [x, y], '<-')
+
+          if (checkVertUp) {
+            diagUpLeft = 'X'
+            for (let d = 1; d < xmasLen; d++) {
+              diagUpLeft = diagUpLeft + xmasArr[x - d][y - d]
+            }
+            xmasCounter(diagUpLeft, [x, y], '<-up>')
+          }
+
+          if (checkVertDown) {
+            diagDownLeft = 'X'
+            for (let d = 1; d < xmasLen; d++) {
+              diagDownLeft = diagDownLeft + xmasArr[x + d][y - d]
+            }
+            xmasCounter(diagDownLeft, [x, y], '<-down')
+          }
+        }
+
+        let vertDown = ''
+
+        if (checkVertDown) {
+          for (let v = x; v < (x + xmasLen); v++) {
+            vertDown = vertDown + xmasArr[v][y]
+          }
+          xmasCounter(vertDown, [x, y], 'down')
+        }
+
+        let vertUp = ''
+
+        if (checkVertUp) {
+          for (let v = x; v > (x - xmasLen); v--) {
+            vertUp = xmasArr[v][y] + vertUp
+          }
+          xmasCounter(vertUp, [x, y], 'up')
+        }
+
+        console.log(seed, x, y)
+      }
+    }
+  }
+  return xmasCount
+}
+
+// console.log(xmasArr, "\n\n\n", rowsNum, colsNum)
+// console.log('\n\n\n', 'vertdown', maxVertDown, 'vertup', minVertUp)
+// console.log('\n\n\n', rowsNum, colsNum)
+
+// console.log('xmas count', countXMAS())
+// console.log(
+//   xmasLen,
+//   'min vertical up', minVertUp,
+//   'min vertical down', maxVertDown,
+// )
+// console.log(xmasArr)
+
+// Part 2
+
+countXMAS = 0
+for (let x = 1; x < (xmasArr.length - 2); x++) {
+  for (let y = 1; y < (xmasArr[0].length - 1); y++) {
     const seed = xmasArr[x][y]
-
-    if (seed === 'X') {
-      let horRight = '::::'
-      let horLeft = '::::'
-      let diagDownRight = '::::'
-      let diagUpRight = '::::'
-      let diagDownLeft = '::::'
-      let diagUpLeft = '::::'
-
-      if (y < (xmasArr.length - xmasLen)) {
-        horRight = currRow.slice(y, y + 4).join('')
-        // horRight = 'X'
-        // for (let r = y + 1; r < (y + 4); r++) {
-        //   horRight = horRight + xmasArr[x][r]
-        // }
-        xmasCounter(horRight, [x, y], '->')
-
-        if (checkVertDown) {
-          diagDownRight = 'X'
-          for (let d = 1; d < xmasLen; d++) {
-            diagDownRight = diagDownRight + xmasArr[x + d][y + d]
-          }
-          xmasCounter(diagDownRight, [x, y], '->down')
-        }
-
-        if (checkVertUp) {
-          diagUpRight = 'X'
-          for (let d = 1; d < xmasLen; d++) {
-            diagUpRight = diagUpRight + xmasArr[x - d][y + d]
-          }
-          xmasCounter(diagUpRight, [x, y], '->up')
-        }
+    if (seed === 'A') {
+      console.log(seed, [x, y])
+      const mas1 = xmasArr[x - 1][y - 1] + 'A' + xmasArr[x + 1][y + 1]
+      const checkMas1 = mas1 === 'MAS' || mas1 === 'SAM'
+      const mas2 = xmasArr[x - 1][y + 1] + 'A' + xmasArr[x + 1][y - 1]
+      const checkMas2 = mas2 === 'MAS' || mas2 === 'SAM'
+      const checkXMAS = checkMas1 && checkMas2
+      if (checkXMAS) {
+        countXMAS = countXMAS + 1
       }
-
-      if (y > (xmasLen - 2)) { // this conditional was throwing everything off :(
-        horLeft = 'X'
-        for (let l = y - 1; l > (y - 4); l--) {
-          horLeft = horLeft + xmasArr[x][l]
-        }
-        xmasCounter(horLeft, [x, y], '<-')
-
-        if (checkVertUp) {
-          diagUpLeft = 'X'
-          for (let d = 1; d < xmasLen; d++) {
-            diagUpLeft = diagUpLeft + xmasArr[x - d][y - d]
-          }
-          xmasCounter(diagUpLeft, [x, y], '<-up>')
-        }
-
-        if (checkVertDown) {
-          diagDownLeft = 'X'
-          for (let d = 1; d < xmasLen; d++) {
-            diagDownLeft = diagDownLeft + xmasArr[x + d][y - d]
-          }
-          xmasCounter(diagDownLeft, [x, y], '<-down')
-        }
-      }
-
-      let vertDown = ''
-
-      if (checkVertDown) {
-        for (let v = x; v < (x + xmasLen); v++) {
-          vertDown = vertDown + xmasArr[v][y]
-        }
-        xmasCounter(vertDown, [x, y], 'down')
-      }
-
-      let vertUp = ''
-
-      if (checkVertUp) {
-        for (let v = x; v > (x - xmasLen); v--) {
-          vertUp = xmasArr[v][y] + vertUp
-        }
-        xmasCounter(vertUp, [x, y], 'up')
-      }
-
-      console.log(seed, x, y)
+      console.log(mas1, mas2, checkXMAS)
     }
   }
 }
 
-// console.log(xmasArr, "\n\n\n", rowsNum, colsNum)
-console.log('\n\n\n', 'vertdown', maxVertDown, 'vertup', minVertUp)
-console.log('\n\n\n', rowsNum, colsNum)
-
-console.log('xmas count', xmasCount)
-console.log(
-  xmasLen,
-  'min vertical up', minVertUp,
-  'min vertical down', maxVertDown,
-)
-// console.log(xmasArr)
-
-// Part 2
+console.log('Number of X-MAS is:', countXMAS)
