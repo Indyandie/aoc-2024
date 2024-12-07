@@ -24,3 +24,10 @@
   - [x] Part 1: Counting XMAS :star:
   - [x] Part 2: X-MAS :star:
 
+
+## [Day 05: Print Queue](https://adventofcode.com/2024/day/5)
+
+- [JS (Deno)](./day-05/js-deno/main.js)
+  - [x] Part 1: Middle Page Sum :star:
+  - [ ] Part 2: ...
+
