@@ -31,3 +31,10 @@
   - [x] Part 1: Middle Page Sum :star:
   - [x] Part 2: Fix the updates :star:
 
+
+## [Day 06: Guard Gallivant](https://adventofcode.com/2024/day/6)
+
+- [JS (Deno)](./day-06/js-deno/main.js)
+  - [x] Part 1: Step Count :star:
+  - [ ] Part 2: ...
+
