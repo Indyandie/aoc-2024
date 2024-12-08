@@ -29,5 +29,5 @@
 
 - [JS (Deno)](./day-05/js-deno/main.js)
   - [x] Part 1: Middle Page Sum :star:
-  - [ ] Part 2: ...
+  - [x] Part 2: Fix the updates :star:
 
